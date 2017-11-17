@@ -6,7 +6,7 @@
 RED = "#BE1E2D";
 BLUE = "#1E2BBE";
 var jObj;
-var matches;
+var matches;						//hi im evan
 
 function initialize() {
 	robot = eval(localStorage.getItem("Robot"));
@@ -89,9 +89,9 @@ function initialize() {
 	chr = chr.concat("Object");
 	var obj = localStorage.getItem(chr);
 	parsed = JSON.parse(obj);
-	
-	var seconds = 00; 
-	var tens = 00; 
+
+	var seconds = 00;
+	var tens = 00;
 	var appendTens = document.getElementById("tens")
 	var appendSeconds = document.getElementById("seconds")
 	var buttonStart = document.getElementById('button-start');
@@ -114,7 +114,7 @@ function initialize() {
 		appendSeconds.innerHTML = seconds;
 	}
 	function startTimer () {
-		tens++; 
+		tens++;
 		if(tens < 9){
 			appendTens.innerHTML = "0" + tens;
 		}
@@ -305,10 +305,10 @@ function submit(q) {
 			}
 		} else {
 			window.location.href = "SplashSheet.html";
-		}	
+		}
 //		console.log(timing);
 //		console.log(jObj);
-	}	
+	}
 }
 </script>
 <style type="text/css">
@@ -325,7 +325,7 @@ width: 65%;
 font-size: 28pt;
 position: absolute;
 right: 1.25%;
-top: 6%;	
+top: 6%;
 }
 #autonomousHalf {
 visibility: visible;
