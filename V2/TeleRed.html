@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Skunkworks Teleop Page</title>
+<script language="JavaScript">
+RED = "#BE1E2D";
+BLUE = "#1E2BBE";
+var jObj;
+var matches;						//hi im evan and im not cool
+
+function initialize() {
+	robot = eval(localStorage.getItem("Robot"));
+	alliance = localStorage.getItem("Alliance");
+	eventName = localStorage.getItem("Event");
+    if ((eventName == "test") || (eventName == null)) eventName = "2016wagg";		// Test
+    for (i=0; i<localStorage.length; i++)
+	{
+		var key = localStorage.key(i);
+		console.log(key);															// Test
+    	if (eventName.concat("Matches") == key)
+    	{
+    		isThere = true;
+    		break;
+    	}
+	}
+	if (isThere) {
+		var jList = localStorage.getItem(eventName.concat("Matches"))
+		matches = new Array();
+		var matches = JSON.parse(jList);
+//		console.log("matches: " + matches.length);									// Test
+		var match = Number(localStorage.getItem("Match"));
+		if (match != null)
+		{
+			elem = document.getElementById("teamNo");
+			title = document.getElementById("autoHeader");
+			sub = document.getElementById("autoSubmit");
+//			console.log("Match: ".concat(match));							// Test
+			if (alliance === "RED")
+			{
+				teamNo = matches[match - 1].red[robot - 1];
+				elem.innerHTML = teamNo;
+				elem.style.color = RED;
+				title.style.color = RED;
+				sub.style.color = RED;
+				sub.style.borderColor = RED;
+			} else {
+				teamNo = matches[match - 1].blue[robot - 1];
+				elem.innerHTML = teamNo;
+				elem.style.color = BLUE;
+				title.style.color = BLUE;
+				sub.style.color = BLUE;
+				sub.style.borderColor = BLUE;
+			}
+			elem = document.getElementById("teamNoTele");
+			title = document.getElementById("teleHeader");
+			sub = document.getElementById("teleSubmit");
+//			console.log("Match: ".concat(match));							// Test
+			if (alliance === "RED")
+			{
+				teamNo = matches[match - 1].red[robot - 1];
+				elem.innerHTML = teamNo;
+				elem.style.color = RED;
+				title.style.color = RED;
+				sub.style.color = RED;
+				sub.style.borderColor = RED;
+			} else {
+				teamNo = matches[match - 1].blue[robot - 1];
+				elem.innerHTML = teamNo;
+				elem.style.color = BLUE;
+				title.style.color = BLUE;
+				sub.style.color = BLUE;
+				sub.style.borderColor = BLUE;
+			}
+			localStorage.setItem("TeamNo", teamNo);
+		}
+	}
+	var jStr = '{"scoutName":"Notdefined","eventName":"","teamNo":0,"match":0,"robot":0,"alliance":"OOO","auto":{"gearScores":"none","passLine":false,"highScores":0,"lowScores":0,"noShow":false,"deadBot":false,"startLocation":"default"},';
+	jStr = jStr.concat('"tele":{"gearScores":0,"gearDrops":0,"highScores":0,"lowScores":0,"playDefense":false,"deadBot":false,"yellowCard":false,"redCard":false,"climbSuccess":false,"climbFail":false,"climbNone":true,"climbTime":"00.00","foulPoints":0}}');
+	jObj = JSON.parse(jStr);
+	jObj.robot = robot
+	jObj.alliance = alliance;
+	jObj.scoutName = localStorage.getItem("ScoutName");
+	jObj.teamNo = eval(localStorage.getItem("TeamNo"));
+	jObj.eventName = localStorage.getItem("Event");
+	var chrs = localStorage.getItem(jObj.eventName.concat("Matches"));
+	matches = JSON.parse(chrs);
+	jObj.match = eval(localStorage.getItem("Match"));
+	var chr = jObj.eventName + jObj.TeamNo + jObj.match;
+	chr = chr.concat("Object");
+	var obj = localStorage.getItem(chr);
+	parsed = JSON.parse(obj);
+
+	var seconds = 00;
+	var tens = 00;
+	var appendTens = document.getElementById("tens")
+	var appendSeconds = document.getElementById("seconds")
+	var buttonStart = document.getElementById('button-start');
+	var buttonStop = document.getElementById('button-stop');
+	var buttonReset = document.getElementById('button-reset');
+	var Interval ;
+	console.log("This happened");
+	buttonStart.onclick = function() {
+		clearInterval(Interval);
+		Interval = setInterval(startTimer, 10);
+	}
+    buttonStop.onclick = function() {
+		clearInterval(Interval);
+	}
+	buttonReset.onclick = function() {
+		clearInterval(Interval);
+		tens = "00";
+		seconds = "00";
+		appendTens.innerHTML = tens;
+		appendSeconds.innerHTML = seconds;
+	}
+	function startTimer () {
+		tens++;
+		if(tens < 9){
+			appendTens.innerHTML = "0" + tens;
+		}
+		if (tens > 9){
+			appendTens.innerHTML = tens;
+		}
+		if (tens > 99) {
+			//console.log("seconds");
+			seconds++;
+			appendSeconds.innerHTML = "0" + seconds;
+			tens = 0;
+			appendTens.innerHTML = "0" + 0;
+		}
+		if (seconds > 9){
+			appendSeconds.innerHTML = seconds;
+		}
+	}
+}
+
+function startCheck(location) {
+	boxes = [document.getElementById("boilerStart"), document.getElementById("centerStart"), document.getElementById("feederStart")]
+	for(var i = 0; i<boxes.length; i++) {
+		if(i != location) {
+			boxes[i].checked = false;
+		}
+	}
+}
+
+function gearCheck(option) {
+	boxes = [document.getElementById("autoGearSuccess"), document.getElementById("autoGearMissed"), document.getElementById("autoGearDropped"), document.getElementById("autoGearNone")]
+	for(var i = 0; i<boxes.length; i++) {
+		if(i != option) {
+			boxes[i].checked = false;
+		}
+	}
+}
+
+function autoMiscCheck(option) {
+	boxes = [document.getElementById("passLine"), document.getElementById("noShow"), document.getElementById("autoDeadBot")]
+	for(var i = 0; i<boxes.length; i++) {
+		if(i != option) {
+			boxes[i].checked = false;
+		}
+	}
+}
+
+function card(option) {
+	boxes = [document.getElementById("yellowCard"), document.getElementById("redCard")]
+	for(var i = 0; i<boxes.length; i++) {
+		if(i != option) {
+			boxes[i].checked = false;
+		}
+	}
+}
+
+function climb(option) {
+	boxes = [document.getElementById("climbSuccess"), document.getElementById("climbFailed"), document.getElementById("climbNone")]
+	for(var i = 0; i<boxes.length; i++) {
+		if(i != option) {
+			boxes[i].checked = false;
+		}
+	}
+}
+
+function upFifths(elemID) {
+	var elem = document.getElementById(elemID);
+	elem.value = String(Number(elem.value) + 5);
+}
+
+function upTenths(elemID) {
+	var elem = document.getElementById(elemID);
+	elem.value = String(Number(elem.value) + 10);
+}
+
+function upUnits(elemID) {
+	var elem = document.getElementById(elemID);
+	elem.value = String(Number(elem.value) + 1);
+}
+
+function downFifths(elemID) {
+	var elem = document.getElementById(elemID);
+	elem.value = String(Math.max(Number(elem.value) - 5,0));
+}
+
+function downUnits(elemID) {
+	var elem = document.getElementById(elemID);
+	elem.value = String(Math.max(Number(elem.value) - 1,0));
+}
+
+function up25ths(elemID) {
+	var elem = document.getElementById(elemID);
+	elem.value = String(Number(elem.value) + 25);
+}
+
+function down25ths(elemID) {
+	var elem = document.getElementById(elemID);
+	elem.value = String(Math.max(Number(elem.value) - 25,0));
+}
+
+function back(q) {
+	if (q === 'auto') {
+		window.history.back();
+	} else if (q === 'tele') {
+		document.getElementById("autonomousHalf").hidden = false;
+		document.getElementById("teleopHalf").hidden = true;
+	}
+}
+
+function submit(q) {
+	if (q === 'auto') {
+		document.getElementById("autonomousHalf").hidden = true;
+		document.getElementById("teleopHalf").hidden = false;
+	} else if (q === 'tele') {
+		// auto first
+		if(document.getElementById("autoGearSuccess").checked) {
+			jObj.auto.gearScores = "success";
+		}
+		if (document.getElementById("autoGearMissed").checked) {
+			jObj.auto.gearScores = "missed";
+		}
+		if (document.getElementById("autoGearDropped").checked) {
+			jObj.auto.gearScores = "dropped";
+		}
+		if (document.getElementById("autoGearNone").checked) {
+			jObj.auto.gearScores = "none";
+		}
+		jObj.auto.passLine = document.getElementById("passLine").checked;
+		jObj.auto.highScores = parseInt(document.getElementById("autoHighScores").value);
+		jObj.auto.lowScores = parseInt(document.getElementById("autoLowScores").value);
+		jObj.auto.noShow = document.getElementById("noShow").checked;
+		jObj.auto.deadBot = document.getElementById("autoDeadBot").checked;
+		if (document.getElementById("boilerStart").checked) {
+			jObj.auto.startLocation = "boiler";
+		}
+		if (document.getElementById("centerStart").checked) {
+			jObj.auto.startLocation = "center";
+		}
+		if (document.getElementById("feederStart").checked) {
+			jObj.auto.startLocation = "feeder";
+		}
+		// now tele
+		jObj.tele.gearScores = parseInt(document.getElementById("teleGears").value);
+		jObj.tele.highScores = parseInt(document.getElementById("teleHighScores").value);
+		jObj.tele.lowScores = parseInt(document.getElementById("teleLowScores").value);
+		jObj.tele.playDefense = document.getElementById("defense").checked;
+		jObj.tele.deadBot = document.getElementById("teleDead").checked;
+		jObj.tele.yellowCard = document.getElementById("yellowCard").checked;
+		jObj.tele.redCard = document.getElementById("redCard").checked;
+		jObj.tele.climbSuccess = document.getElementById("climbSuccess").checked;
+		jObj.tele.climbFail = document.getElementById("climbFailed").checked;
+		jObj.tele.climbNone = document.getElementById("climbNone").checked;
+		milliseconds = document.getElementById("tens").innerHTML;
+		secs = document.getElementById("seconds").innerHTML;
+		milliseconds = parseInt(milliseconds);
+		secs = parseInt(secs);
+		timing = secs;
+		timing = timing + (milliseconds * 0.01);
+		jObj.tele.climbTime = timing;
+		abc = document.getElementById("autoFoul").value;
+		abc = parseInt(abc);
+		xyz = document.getElementById("teleFoul").value;
+		xyz = parseInt(xyz);
+		jObj.tele.foulPoints = abc + xyz;
+		// now local store jObj
+		var LSName = jObj.eventName.concat("_");
+		LSName = LSName.concat(jObj.teamNo);
+		LSName = LSName.concat("_");
+		LSName = LSName.concat(jObj.match);
+		LSName = LSName.concat("_");
+		LSName = LSName.concat("Object");
+		localStorage.setItem(LSName, JSON.stringify(jObj));
+		// now go back to the start
+		if (jObj.alliance === "RED") {
+			if (jObj.robot === 1) {
+				window.location.href = "SplashSheet.html?robot=RED1";
+			} else if (jObj.robot === 2) {
+				window.location.href = "SplashSheet.html?robot=RED2";
+			} else if (jObj.robot === 3) {
+				window.location.href = "SplashSheet.html?robot=RED3";
+			}
+		} else if (jObj.alliance === "BLUE") {
+			if (jObj.robot === 1) {
+				window.location.href = "SplashSheet.html?robot=BLUE1";
+			} else if (jObj.robot === 2) {
+				window.location.href = "SplashSheet.html?robot=BLUE2";
+			} else if (jObj.robot === 3) {
+				window.location.href = "SplashSheet.html?robot=BLUE3";
+			}
+		} else {
+			window.location.href = "SplashSheet.html";
+		}
+//		console.log(timing);
+//		console.log(jObj);
+	}
+}
+</script>
+<style type="text/css">
+html {
+font-size: 22pt;
+}
+.logo {
+position: absolute;
+right: 1.25%;
+top: 2.5%;
+width: 65%;
+}
+#autoHeader {
+font-size: 28pt;
+position: absolute;
+right: 1.25%;
+top: 6%;
+}
+#autonomousHalf {
+visibility: visible;
+}
+#startLocation {
+position: absolute;
+left: 3%;
+top: 9%;
+z-index: 1;
+}
+.headers {
+position: relative;
+top: 30px;
+}
+.checkBoxes {
+height: 40px;
+width: 40px;
+border: 2px;
+border-color: SOLID WHITE;
+position: relative;
+top: 12px;
+}
+.spacing {
+font-size: 5pt;
+}
+#autoGearScores {
+position: absolute;
+top: 45%;
+left: 3%;
+}
+#autoFuelScores {
+position: absolute;
+top: 17.5%;
+right: 10%;
+}
+#autoHighScoreButtons {
+position: relative;
+bottom: 20px;
+}
+.fuelScoreButtons {
+height: 2.1em;
+border-radius: 10px;
+width: 2.4em;
+text-align: center;
+padding: 0px;
+border-style: solid;
+border-color: black;
+font-size: 22px;
+}
+.fuelScoreboard {
+font-size: 22pt;
+width: 5em;
+position: relative;
+top: 3px;
+}
+#autoLowScoreButtons {
+position: relative;
+left: 5px;
+}
+#autoMisc {
+position: absolute;
+left: 32.5%;
+top: 54%;
+}
+#teamNo {
+position: absolute;
+left: -5px;
+top: -85px;
+font-size: 60pt;
+font-style: sans-serif;
+border-style: solid;
+border-color: BLACK;
+border-width: thick;
+background-color: #EFEFEF;
+padding: 5px;
+}
+.submitButtons {
+position: absolute;
+top: 80%;
+right: 1%;
+border-style: solid;
+border-color: BLACK;
+border-width: thick;
+background-color: #EFEFEF;
+font-size: 22pt;
+font-weight: bold;
+height: 110px;
+width: 140px;
+}
+.backButtons {
+position: absolute;
+top: 80%;
+right: 18%;
+border-style: solid;
+border-color: black;
+border-width: thick;
+background-color: #EFEFEF;
+font-size: 26px;
+font-weight: bold;
+height: 110px;
+width: 140px;
+}
+#autoFouls {
+width: 40%;
+position: absolute;
+top: 47.5%;
+right: 0%;
+}
+.foulScoreboard {
+font-size: 22pt;
+width: 3em;
+position: relative;
+top: 3px;
+}
+.foulScoreButtons {
+height: 2.1em;
+border-radius: 10px;
+width: 2.4em;
+text-align: center;
+padding: 0px;
+border-style: solid;
+border-color: black;
+font-size: 22px;
+}
+#autoFoulHeader {
+position: relative;
+top: 15px;
+}
+
+/* TELE OP CSS */
+
+#teleHeader {
+font-size: 28pt;
+position: absolute;
+right: 1.25%;
+top: 6%;
+}
+#teamNoTele {
+position: absolute;
+left: -5px;
+top: -85px;
+font-size: 60pt;
+font-style: sans-serif;
+border-style: solid;
+border-color: BLACK;
+border-width: thick;
+background-color: #EFEFEF;
+padding: 5px;
+}
+#teleFuel {
+position: absolute;
+left: 4%;
+top: 15%;
+}
+#teleGearScores {
+position: absolute;
+left: 6.5%;
+top: 49.5%;
+}
+#teleFouls {
+position: absolute;
+left: 15%;
+bottom: 1%;
+}
+#climb {
+position: absolute;
+right: 5%;
+top: 10.5%;
+}
+#stopWatch {
+z-index: -1;
+position: absolute;
+top: 49%;
+right: 2%;
+font-size: 32pt;
+text-align: center;
+}
+.watchButtons {
+font-size: 18pt;
+height: 55px;
+width: 100px;
+border-color: black;
+background-color: #EFEFEF;
+position: relative;
+bottom: 40px;
+}
+#teleMiscCheck {
+position: absolute;
+left: 4%;
+top: 50%;
+z-index: -1;
+}
+#teleMiscCheck2 {
+position: absolute;
+left: 34%;
+top: 65.525%;
+z-index: -1;
+}
+</style>
+</head>
+<body onLoad="initialize()">
+
+<div id="autonomousHalf"; >
+	<img src="images/SkunkPunkPic.png"; class="logo">
+	<p id="autoHeader">AUTONOMOUS</p>
+	<div id="startLocation">
+		<p class="headers"; id="startHeader">Start Location:</p>
+		<input type="checkbox"; value="false"; class="checkBoxes"; id="boilerStart"; onChange="startCheck(0)">&nbsp;<label for="boiler"; class="labels">: Boiler Side
+		<p class="spacing"> </p>
+		<input type="checkbox"; value="false"; class="checkBoxes"; id="centerStart"; onChange="startCheck(1)">&nbsp;<label for="center"; class="labels">: Center
+		<p class="spacing"> </p>
+		<input type="checkbox"; value="false"; class="checkBoxes"; id="feederStart"; onChange="startCheck(2)">&nbsp;<label for="feeder"; class="labels">: Feeder Side
+	</div>
+	<div id="autoGearScores">
+		<p class="headers"; id="autoGearHeader">Gear Placement:&nbsp;</p>
+		<input type="checkbox"; value="false"; class="checkBoxes"; id="autoGearSuccess"; onChange="gearCheck(0)">&nbsp;<label for="success"; class="labels">: Success
+		<p class="spacing"> </p>
+		<input type="checkbox"; value="false"; class="checkBoxes"; id="autoGearMissed"; onChange="gearCheck(1)">&nbsp;<label for="missed"; class="labels">: Missed/Jammed
+		<p class="spacing"> </p>
+		<input type="checkbox"; value="false"; class="checkBoxes"; id="autoGearDropped"; onChange="gearCheck(2)">&nbsp;<label for="success"; class="labels">: Dropped
+		<p class="spacing"> </p>
+		<input type="checkbox"; value="false"; class="checkBoxes"; id="autoGearNone"; onChange="gearCheck(3)">&nbsp;<label for="success"; class="labels">: No Attempt
+	</div>
+	<div id="autoFuelScores">
+		<p id="autoFuelHeader">Fuel Balls Scored:</p>
+		<SPAN id="autoHighScoreButtons">High:&nbsp;
+			<BUTTON onClick="upTenths('autoHighScores')"; class="fuelScoreButtons">+10</BUTTON>
+			<BUTTON onClick="upFifths('autoHighScores')"; class="fuelScoreButtons">+5</BUTTON>
+			<BUTTON onClick="upUnits('autoHighScores')"; class="fuelScoreButtons">+1</BUTTON>
+			<INPUT type="text"; id="autoHighScores"; value="0"; class="fuelScoreboard"; disabled>
+			<BUTTON onClick="downFifths('autoHighScores')"; class="fuelScoreButtons">-5</BUTTON>
+			<BUTTON onClick="downUnits('autoHighScores')"; class="fuelScoreButtons">-1</BUTTON>
+		</SPAN>
+		<BR>
+		<SPAN id="autoLowScoreButtons">Low:&nbsp;
+			<BUTTON onClick="upTenths('autoLowScores')"; class="fuelScoreButtons">+10</BUTTON>
+			<BUTTON onClick="upFifths('autoLowScores')"; class="fuelScoreButtons">+5</BUTTON>
+			<BUTTON onClick="upUnits('autoLowScores')"; class="fuelScoreButtons">+1</BUTTON>
+			<INPUT type="text"; id="autoLowScores"; value="0"; class="fuelScoreboard"; disabled>
+			<BUTTON onClick="downFifths('autoLowScores')"; class="fuelScoreButtons">-5</BUTTON>
+			<BUTTON onClick="downUnits('autoLowScores')"; class="fuelScoreButtons">-1</BUTTON>
+		</SPAN>
+	</div>
+	<div id="autoMisc">
+		<p class="headers"; id="autoCheckHeader">Miscellaneous:&nbsp;</p>
+		<input type="checkbox"; value="false"; class="checkBoxes"; id="passLine"; onChange="autoMiscCheck(0)">&nbsp;<label for="passLine"; class="labels">: Crossed Line
+		<p class="spacing"> </p>
+		<input type="checkbox"; value="false"; class="checkBoxes"; id="noShow"; onChange="autoMiscCheck(1)">&nbsp;<label for="noShow"; class="labels">: No Show
+		<p class="spacing"> </p>
+		<input type="checkbox"; value="false"; class="checkBoxes"; id="autoDeadBot"; onChange="autoMiscCheck(2)">&nbsp;<label for="deadBot"; class="labels">: Dead Bot
+	</div>
+	<p id="teamNo">0000</p>
+	<div id="autoFouls">
+		<p id="autoFoulHeader">Foul Points Caused:</p>
+		<SPAN id="autoFoulSpan">
+			<BUTTON onClick="up25ths('autoFoul')"; class="foulScoreButtons">+25</BUTTON>
+			<BUTTON onClick="upFifths('autoFoul')"; class="foulScoreButtons">+5</BUTTON>
+			<INPUT type="text"; id="autoFoul"; value="0"; class="foulScoreboard"; disabled>
+			<BUTTON onClick="down25ths('autoFoul')"; class="foulScoreButtons">-25</BUTTON>
+			<BUTTON onClick="downFifths('autoFoul')"; class="foulScoreButtons">-5</BUTTON>
+		</SPAN>
+	</div>
+	<BUTTON onClick="back('auto')"; class="backButtons">GO<BR>BACK</BUTTON>
+	<BUTTON onClick="submit('auto')"; id="autoSubmit"; class="submitButtons">GO TO<BR>TELEOP</BUTTON>
+</div>
+<div id="teleopHalf"; hidden>
+	<img src="images/SkunkPunkPic.png"; class="logo">
+	<p id="teleHeader">TELE OPERATED</p>
+	<p id="teamNoTele">0000</p>
+	<BUTTON onClick="back('tele')"; class="backButtons">GO<BR>BACK</BUTTON>
+	<BUTTON onClick="submit('tele')"; id="teleSubmit"; class="submitButtons">SUBMIT</BUTTON>
+	<div id="teleFuel">
+		<p id="teleFuelHeader">Fuel Balls Scored:</p>
+		<SPAN id="autoHighScoreButtons">High:&nbsp;
+			<BUTTON onClick="upTenths('teleHighScores')"; class="fuelScoreButtons">+10</BUTTON>
+			<BUTTON onClick="upFifths('teleHighScores')"; class="fuelScoreButtons">+5</BUTTON>
+			<BUTTON onClick="upUnits('teleHighScores')"; class="fuelScoreButtons">+1</BUTTON>
+			<INPUT type="text"; id="teleHighScores"; value="0"; class="fuelScoreboard"; disabled>
+			<BUTTON onClick="downFifths('teleHighScores')"; class="fuelScoreButtons">-5</BUTTON>
+			<BUTTON onClick="downUnits('teleHighScores')"; class="fuelScoreButtons">-1</BUTTON>
+		</SPAN>
+		<BR>
+		<SPAN id="autoLowScoreButtons">Low:&nbsp;
+			<BUTTON onClick="upTenths('teleLowScores')"; class="fuelScoreButtons">+10</BUTTON>
+			<BUTTON onClick="upFifths('teleLowScores')"; class="fuelScoreButtons">+5</BUTTON>
+			<BUTTON onClick="upUnits('teleLowScores')"; class="fuelScoreButtons">+1</BUTTON>
+			<INPUT type="text"; id="teleLowScores"; value="0"; class="fuelScoreboard"; disabled>
+			<BUTTON onClick="downFifths('teleLowScores')"; class="fuelScoreButtons">-5</BUTTON>
+			<BUTTON onClick="downUnits('teleLowScores')"; class="fuelScoreButtons">-1</BUTTON>
+		</SPAN>
+		<BR>
+	</div>
+	<div id="teleGearScores">
+		<SPAN id="gearScoresButtons">Gears Placed:&nbsp;
+			<BUTTON onClick="upUnits('teleGears')"; class="fuelScoreButtons">+1</BUTTON>
+			<INPUT type="text"; id="teleGears"; value="0"; class="fuelScoreboard"; disabled>
+			<BUTTON onClick="downUnits('teleGears')"; class="fuelScoreButtons">-1</BUTTON>
+		</SPAN>
+	</div>
+	<div id="teleFouls">
+		<p id="teleFoulHeader"; class="headers">Foul Points Caused:</p>
+		<SPAN id="teleFoulSpan">
+			<BUTTON onClick="up25ths('teleFoul')"; class="foulScoreButtons">+25</BUTTON>
+			<BUTTON onClick="upFifths('teleFoul')"; class="foulScoreButtons">+5</BUTTON>
+			<INPUT type="text"; id="teleFoul"; value="0"; class="foulScoreboard"; disabled>
+			<BUTTON onClick="down25ths('teleFoul')"; class="foulScoreButtons">-25</BUTTON>
+			<BUTTON onClick="downFifths('teleFoul')"; class="foulScoreButtons">-5</BUTTON>
+		</SPAN>
+	</div>
+	<div id="climb">
+		<p id="miscHeader"; class="headers">Climb:</p>
+		<input type="checkbox"; value="false"; class="checkBoxes"; id="climbSuccess"; onChange="climb(0)">&nbsp;<label for="climbSuccess"; class="labels">: Successful
+		<p class="spacing"> </p>
+		<input type="checkbox"; value="false"; class="checkBoxes"; id="climbFailed"; onChange="climb(1)">&nbsp;<label for="climbFailed"; class="labels">: Failed/Fell
+		<p class="spacing"> </p>
+		<input type="checkbox"; value="false"; class="checkBoxes"; id="climbNone"; onChange="climb(2)">&nbsp;<label for="climbNone"; class="labels">: Did Not Try
+	</div>
+	<div id="stopWatch">
+		<p id="watchTime">Time&nbsp;&nbsp;<span id="seconds">00</span>:<span id="tens">00</span></p>
+		<button id="button-start"; class="watchButtons">Start</button>
+		<button id="button-stop"; class="watchButtons">Stop</button>
+		<button id="button-reset"; class="watchButtons">Reset</button>
+	</div>
+	<div id="teleMiscCheck">
+		<p id="miscHeader"; class="headers">Miscellaneous:</p>
+		<input type="checkbox"; class="checkBoxes"; id="defense">&nbsp;<label for="defense"; class="labels">: Played Defense
+		<p class="spacing"> </p>
+		<input type="checkbox"; class="checkBoxes"; id="teleDead">&nbsp;<label for="teleDead"; class="labels">: Dead Bot
+	</div>
+	<div id="teleMiscCheck2">
+		<input type="checkbox"; class="checkBoxes"; id="yellowCard"; onChange="card(0)">&nbsp;<label for="yellowCard"; class="labels">: Yellow Card
+		<p class="spacing"> </p>
+		<input type="checkbox"; class="checkBoxes"; id="redCard"; onChange="card(1)">&nbsp;<label for="redCard"; class="labels">: Red Card
+	</div>
+</div>
