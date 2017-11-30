@@ -16,21 +16,21 @@
 	<p id="autoHeader">AUTONOMOUS</p>
 	<div id="startLocation">
 		<p class="headers" id="startHeader">Start Location:</p>
-		<input type="checkbox" value="false" class="checkBoxes" id="boilerStart" onChange="buttonCheck(startCheck, 0)">&nbsp;<label for="boiler" class="labels">: Boiler Side
+		<input type="checkbox" value="false" class="checkBoxes" id="boilerStart" onClick="buttonCheck('startCheck', 0)">&nbsp;<label for="boiler" class="labels">: Boiler Side
 		<p class="spacing"> </p>
-		<input type="checkbox" value="false" class="checkBoxes" id="centerStart" onChange="buttonCheck(startCheck, 1)">&nbsp;<label for="center" class="labels">: Center
+		<input type="checkbox" value="false" class="checkBoxes" id="centerStart" onClick="buttonCheck('startCheck', 1)">&nbsp;<label for="center" class="labels">: Center
 		<p class="spacing"> </p>
-		<input type="checkbox" value="false" class="checkBoxes" id="feederStart" onChange="buttonCheck(startCheck, 2)">&nbsp;<label for="feeder" class="labels">: Feeder Side
+		<input type="checkbox" value="false" class="checkBoxes" id="feederStart" onClick="buttonCheck('startCheck', 2)">&nbsp;<label for="feeder" class="labels">: Feeder Side
 	</div>
 	<div id="autoGearScores">
 		<p class="headers" id="autoGearHeader">Gear Placement:&nbsp;</p>
-		<input type="checkbox" value="false" class="checkBoxes" id="autoGearSuccess" onChange="buttonCheck(gearCheck, 0)">&nbsp;<label for="success" class="labels">: Success
+		<input type="checkbox" value="false" class="checkBoxes" id="autoGearSuccess" onClick="buttonCheck('gearCheck', 0)">&nbsp;<label for="success" class="labels">: Success
 		<p class="spacing"> </p>
-		<input type="checkbox" value="false" class="checkBoxes" id="autoGearMissed" onChange="buttonCheck(gearCheck, 1)">&nbsp;<label for="missed" class="labels">: Missed/Jammed
+		<input type="checkbox" value="false" class="checkBoxes" id="autoGearMissed" onClick="buttonCheck('gearCheck', 1)">&nbsp;<label for="missed" class="labels">: Missed/Jammed
 		<p class="spacing"> </p>
-		<input type="checkbox" value="false" class="checkBoxes" id="autoGearDropped" onChange="buttonCheck(gearCheck, 2)">&nbsp;<label for="success" class="labels">: Dropped
+		<input type="checkbox" value="false" class="checkBoxes" id="autoGearDropped" onClick="buttonCheck('gearCheck', 2)">&nbsp;<label for="success" class="labels">: Dropped
 		<p class="spacing"> </p>
-		<input type="checkbox" value="false" class="checkBoxes" id="autoGearNone" onChange="buttonCheck(gearCheck, 3)">&nbsp;<label for="success" class="labels">: No Attempt
+		<input type="checkbox" value="false" class="checkBoxes" id="autoGearNone" onClick="buttonCheck('gearCheck', 3)">&nbsp;<label for="success" class="labels">: No Attempt
 	</div>
 	<div id="autoFuelScores">
 		<p id="autoFuelHeader">Fuel Balls Scored:</p>
@@ -54,11 +54,11 @@
 	</div>
 	<div id="autoMisc">
 		<p class="headers"  id="autoCheckHeader">Miscellaneous:&nbsp;</p>
-		<input type="checkbox"  value="false"  class="checkBoxes" id="passLine" onChange="buttonCheck(autoMiscCheck, 0)">&nbsp;<label for="passLine" class="labels">: Crossed Line
+		<input type="checkbox"  value="false"  class="checkBoxes" id="passLine">&nbsp;<label for="passLine" class="labels">: Crossed Line
 		<p class="spacing"> </p>
-		<input type="checkbox" value="false" class="checkBoxes" id="noShow" onChange="buttonCheck(autoMiscCheck, 1)">&nbsp;<label for="noShow" class="labels">: No Show
+		<input type="checkbox" value="false" class="checkBoxes" id="noShow">&nbsp;<label for="noShow" class="labels">: No Show
 		<p class="spacing"> </p>
-		<input type="checkbox" value="false" class="checkBoxes" id="autoDeadBot" onChange="buttonCheck(autoMiscCheck, 2)">&nbsp;<label for="deadBot" class="labels">: Dead Bot
+		<input type="checkbox" value="false" class="checkBoxes" id="autoDeadBot">&nbsp;<label for="deadBot" class="labels">: Dead Bot
 	</div>
 	<p id="teamNo">0000</p>
 	<div id="autoFouls">
@@ -120,11 +120,11 @@
 	</div>
 	<div id="climb">
 		<p id="miscHeader" class="headers">Climb:</p>
-		<input type="checkbox" value="false" class="checkBoxes" id="climbSuccess" onChange="buttonCheck(climb, 0)">&nbsp;<label for="climbSuccess" class="labels">: Successful
+		<input type="checkbox" value="false" class="checkBoxes" id="climbSuccess" onChange="buttonCheck('climb', 0)">&nbsp;<label for="climbSuccess" class="labels">: Successful
 		<p class="spacing"> </p>
-		<input type="checkbox" value="false" class="checkBoxes" id="climbFailed" onChange="buttonCheck(climb, 1)">&nbsp;<label for="climbFailed" class="labels">: Failed/Fell
+		<input type="checkbox" value="false" class="checkBoxes" id="climbFailed" onChange="buttonCheck('climb', 1)">&nbsp;<label for="climbFailed" class="labels">: Failed/Fell
 		<p class="spacing"> </p>
-		<input type="checkbox" value="false" class="checkBoxes" id="climbNone" onChange="buttonCheck(climb, 2)">&nbsp;<label for="climbNone" class="labels">: Did Not Try
+		<input type="checkbox" value="false" class="checkBoxes" id="climbNone" onChange="buttonCheck('climb', 2)">&nbsp;<label for="climbNone" class="labels">: Did Not Try
 	</div>
 	<div id="stopWatch">
 		<p id="watchTime">Time&nbsp;&nbsp;<span id="seconds">00</span>:<span id="tens">00</span></p>

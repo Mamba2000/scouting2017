@@ -2,6 +2,8 @@ RED = "#BE1E2D";
 BLUE = "#1E2BBE";
 var jObj;
 var matches;						//hi im evan and im not cool
+var robot;
+var alliance;
 
 function initialize() {
 	robot = eval(localStorage.getItem("Robot"));
@@ -68,45 +70,45 @@ function initialize() {
 			localStorage.setItem("TeamNo", teamNo);
 		}
 	}
-}
-var jStr = '{"scoutName":"Notdefined","eventName":"","teamNo":0,"match":0,"robot":0,"alliance":"OOO","auto":{"gearScores":"none","passLine":false,"highScores":0,"lowScores":0,"noShow":false,"deadBot":false,"startLocation":"default"},';
-jStr = jStr.concat('"tele":{"gearScores":0,"gearDrops":0,"highScores":0,"lowScores":0,"playDefense":false,"deadBot":false,"yellowCard":false,"redCard":false,"climbSuccess":false,"climbFail":false,"climbNone":true,"climbTime":"00.00","foulPoints":0}}');
-jObj = JSON.parse(jStr);
-jObj.robot = robot
-jObj.alliance = alliance;
-jObj.scoutName = localStorage.getItem("ScoutName");
-jObj.teamNo = eval(localStorage.getItem("TeamNo"));
-jObj.eventName = localStorage.getItem("Event");
-var chrs = localStorage.getItem(jObj.eventName.concat("Matches"));
-matches = JSON.parse(chrs);
-jObj.match = eval(localStorage.getItem("Match"));
-var chr = jObj.eventName + jObj.TeamNo + jObj.match;
-chr = chr.concat("Object");
-var obj = localStorage.getItem(chr);
-parsed = JSON.parse(obj);
+	var jStr = '{"scoutName":"Notdefined","eventName":"","teamNo":0,"match":0,"robot":0,"alliance":"OOO","auto":{"gearScores":"none","passLine":false,"highScores":0,"lowScores":0,"noShow":false,"deadBot":false,"startLocation":"default"},';
+	jStr = jStr.concat('"tele":{"gearScores":0,"gearDrops":0,"highScores":0,"lowScores":0,"playDefense":false,"deadBot":false,"yellowCard":false,"redCard":false,"climbSuccess":false,"climbFail":false,"climbNone":true,"climbTime":"00.00","foulPoints":0}}');
+	jObj = JSON.parse(jStr);
+	jObj.robot = robot;
+	jObj.alliance = alliance;
+	jObj.scoutName = localStorage.getItem("ScoutName");
+	jObj.teamNo = localStorage.getItem("TeamNo");
+	jObj.eventName = localStorage.getItem("Event");
+	var chrs = localStorage.getItem(jObj.eventName.concat("Matches"));
+	matches = JSON.parse(chrs);
+	jObj.match = eval(localStorage.getItem("Match"));
+	var chr = jObj.eventName + jObj.TeamNo + jObj.match;
+	chr = chr.concat("Object");
+	var obj = localStorage.getItem(chr);
+	parsed = JSON.parse(obj);
 
-var seconds = 00;
-var tens = 00;
-var appendTens = document.getElementById("tens")
-var appendSeconds = document.getElementById("seconds")
-var buttonStart = document.getElementById('button-start');
-var buttonStop = document.getElementById('button-stop');
-var buttonReset = document.getElementById('button-reset');
-var Interval ;
-console.log("This happened");
-buttonStart.onclick = function() {
-	clearInterval(Interval);
-	Interval = setInterval(startTimer, 10);
-}
-  buttonStop.onclick = function() {
-	clearInterval(Interval);
-}
-buttonReset.onclick = function() {
-	clearInterval(Interval);
-	tens = "00";
-	seconds = "00";
-	appendTens.innerHTML = tens;
-	appendSeconds.innerHTML = seconds;
+	var seconds = 00;
+	var tens = 00;
+	var appendTens = document.getElementById("tens");
+	var appendSeconds = document.getElementById("seconds");
+	var buttonStart = document.getElementById('button-start');
+	var buttonStop = document.getElementById('button-stop');
+	var buttonReset = document.getElementById('button-reset');
+	var Interval ;
+	console.log("This happened");
+	buttonStart.onclick = function() {
+		clearInterval(Interval);
+		Interval = setInterval(startTimer, 10);
+	}
+	  buttonStop.onclick = function() {
+		clearInterval(Interval);
+	}
+	buttonReset.onclick = function() {
+		clearInterval(Interval);
+		tens = "00";
+		seconds = "00";
+		appendTens.innerHTML = tens;
+		appendSeconds.innerHTML = seconds;
+	}
 }
 function startTimer () {
 	tens++;
@@ -133,6 +135,7 @@ function buttonCheck(type, option){
 	switch(type){
 		case "startCheck":
 			var boxes = [document.getElementById("boilerStart"), document.getElementById("centerStart"), document.getElementById("feederStart")];
+			break;
 		case "gearCheck":
 			boxes = [document.getElementById("autoGearSuccess"), document.getElementById("autoGearMissed"), document.getElementById("autoGearDropped"), document.getElementById("autoGearNone")];
 			break;
