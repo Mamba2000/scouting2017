@@ -26,7 +26,7 @@ table, th, td {
 </body>
 
 <script>
-  data = [];
+
   window.onload = function() {
 
     table = document.getElementById("events");
@@ -35,7 +35,7 @@ table, th, td {
       try {
         key = JSON.parse(localStorage.getItem(key));
         console.log(key);
-        eventName_teamNo_match_Object = key.eventName_teamNo_match_Object;
+        match = key.match;
       } catch(err) {
         console.log("Non-match");
         continue;
@@ -44,15 +44,15 @@ table, th, td {
       console.log("Good Match");
       row = table.insertRow(-1);
 
-      row.id = "row-" + eventName_teamNo_match_Object.toString();
+      row.id = "row-" + match.toString();
 
       number = row.insertCell(-1);
       submitted = row.instertCell(-1);
       submit = row.insertCell(-1);
 
-      number.innerHTML = eventName_teamNo_match_Object;
+      number.innerHTML = match;
       submitted.innerHTML = "False";
-      submit.innerHTML = "<button id=\"" + eventName_teamNo_match_Object + "\" onclick=\"sendData(" + eventName_teamNo_match_Object + ");\">Submit</button>";
+      submit.innerHTML = "<button id=\"" + match + "\" onclick=\"sendData(" + match + ");\">Submit</button>";
     }
 
 
