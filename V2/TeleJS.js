@@ -8,7 +8,7 @@ var alliance;
 function initialize() {
 	robot = eval(localStorage.getItem("Robot"));
 	alliance = localStorage.getItem("Alliance");
-	eventName = localStorage.getItem("Event")
+	eventName = localStorage.getItem("Event");
     if ((eventName == "test") || (eventName == null)) {
 			eventName = "2016wagg";		// Test
 		}
@@ -67,20 +67,21 @@ function initialize() {
 				sub.style.color = BLUE;
 				sub.style.borderColor = BLUE;
 			}
-			localStorage.setItem("TeamNo", teamNo);
+			// localStorage.setItem("TeamNo", teamNo);
+			console.log(teamNO);
 		}
 	}
-	var jStr = '{"scoutName":"Notdefined","eventName":"","teamNo":0,"match":0,"robot":0,"alliance":"OOO","auto":{"gearScores":"none","passLine":false,"highScores":0,"lowScores":0,"noShow":false,"deadBot":false,"startLocation":"default"},';
+	var jStr = '{"isTele":"true","scoutName":"Notdefined","eventName":"","teamNo":0,"match":0,"robot":0,"alliance":"OOO","auto":{"gearScores":"none","passLine":false,"highScores":0,"lowScores":0,"noShow":false,"deadBot":false,"startLocation":"default"},';
 	jStr = jStr.concat('"tele":{"gearScores":0,"gearDrops":0,"highScores":0,"lowScores":0,"playDefense":false,"deadBot":false,"yellowCard":false,"redCard":false,"climbSuccess":false,"climbFail":false,"climbNone":true,"climbTime":"00.00","foulPoints":0}}');
 	jObj = JSON.parse(jStr);
 	jObj.robot = robot;
 	jObj.alliance = alliance;
-	jObj.scoutName = localStorage.getItem("ScoutName");
+	jObj.scoutName = localStorage.getItem("splash-scoutName");
 	jObj.teamNo = localStorage.getItem("TeamNo");
-	jObj.eventName = localStorage.getItem("Event");
+	jObj.eventName = localStorage.getItem("splash.eventName");
 	var chrs = localStorage.getItem(jObj.eventName.concat("Matches"));
 	matches = JSON.parse(chrs);
-	jObj.match = eval(localStorage.getItem("Match"));
+	jObj.match = localStorage.getItem("Match");
 	var chr = jObj.eventName + jObj.TeamNo + jObj.match;
 	chr = chr.concat("Object");
 	var obj = localStorage.getItem(chr);
