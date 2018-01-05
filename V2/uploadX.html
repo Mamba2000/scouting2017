@@ -34,8 +34,8 @@ table, th, td {
     for (var key in localStorage) {
       try {
         key = JSON.parse(localStorage.getItem(key));
+        isTele = key.isTele;
         console.log(key);
-        match = key.match;
       } catch(err) {
         console.log("Non-match");
         continue;
@@ -44,15 +44,15 @@ table, th, td {
       console.log("Good Match");
       row = table.insertRow(-1);
 
-      row.id = "row-" + match.toString();
+      row.id = "row-" + name.toString();
 
       number = row.insertCell(-1);
-      submitted = row.instertCell(-1);
+      submitted = row.insertCell(-1);
       submit = row.insertCell(-1);
 
-      number.innerHTML = match;
+      number.innerHTML = name;
       submitted.innerHTML = "False";
-      submit.innerHTML = "<button id=\"" + match + "\" onclick=\"sendData(" + match + ");\">Submit</button>";
+      submit.innerHTML = "<button id=\"" + name + "\" onclick=\"sendData(" + name + ");\">Submit</button>";
     }
 
 
@@ -83,13 +83,13 @@ table, th, td {
 
   };
 
-  function sendData(match) {
+  function sendData(name) {
     table = document.getElementById("send_messages");
     row = table.insertRow(-1);
 
-    row.innerHTML = "<p>Data sent for match " + match.toString() + ".</p>"; //not really
+    row.innerHTML = "<p>Data sent for match " + name.toString() + ".</p>"; //not really
 
-    row = document.getElementById("row-" + match.toString());
+    row = document.getElementById("row-" + name.toString());
     row.parentNode.removeChild(row);
   }
 
