@@ -20,7 +20,7 @@ function initialize()
 {
 	var str = window.location.search;
  	var tabletID = str.split("=");
- 	console.log(tabletID[1]);
+ 	//console.log(tabletID[1]);
 	matchTablet(tabletID[1]);
 	scout = localStorage.getItem("ScoutName");
 	if (scout != null) {
@@ -41,27 +41,27 @@ function matchTablet(tabletID)
 {
 	switch(tabletID)
 	{
-		case "RED1": 
+		case "RED1":
 			alliance = "RED";
 			robot = 1;
 			break;
-		case "RED2": 
+		case "RED2":
 			alliance = "RED";
 			robot = 2;
 			break;
-		case "RED3": 
+		case "RED3":
 			alliance = "RED";
 			robot = 3;
 			break;
-		case "BLUE1": 
+		case "BLUE1":
 			alliance = "BLUE";
 			robot = 1;
 			break;
-		case "BLUE2": 
+		case "BLUE2":
 			alliance = "BLUE";
 			robot = 2;
 			break;
-		case "BLUE3": 
+		case "BLUE3":
 			alliance = "BLUE";
 			robot = 3;
 			break;
@@ -70,20 +70,19 @@ function matchTablet(tabletID)
 			robot = 0;
 			break;
 	}
-	console.log(tabletID);		//test
-	console.log(robot);			//test
-	console.log(alliance);		//test
+	//console.log(tabletID);		//test
+	//console.log(robot);			//test
+	//console.log(alliance);		//test
 	document.getElementById("tab").innerHTML = alliance + " " + robot;
 	if (alliance === "BLUE") {
 		document.getElementById("tab").style.color = "blue";
-		console.log("BLUE")
+		//console.log("BLUE")
 	}
 	else if (alliance === "RED") {
 		document.getElementById("tab").style.color = "red";
-		console.log("RED")
+		//console.log("RED")
 	}
 }
-
 
 function validateInp(elem) {
 	var validChars = /[0-9]/;
@@ -94,19 +93,22 @@ function validateInp(elem) {
 }
 
 function submitSplash() {
-	localStorage.setItem("ScoutName", document.getElementById("scoutselect").value);
-	localStorage.setItem("Event", document.getElementById("eventselect").value);
-	localStorage.setItem("Match", document.getElementById("matchnumber").value);
-	localStorage.setItem("Robot", robot);
-	localStorage.setItem("Alliance", alliance);	
+	localStorage.setItem("splash_scoutName", document.getElementById("scoutselect").value);
+	localStorage.setItem("splash_eventName", document.getElementById("eventselect").value);
+	localStorage.setItem("splash_match", document.getElementById("matchnumber").value);
+	localStorage.setItem("splash_robot", robot);
+	localStorage.setItem("splash_alliance", alliance);
+
+	//console.log(jSplash);
+
 	if (document.getElementById("matchnumber").value === "666") {
 		window.location.href = "http://www.reddit.com/r/CrappyDesign";
 	}
 	else {
-		window.location.href = "TeleRed.html";
-	
+		window.location.href = "Tele.html";
+
 	}
-} 
+}
 
 </script>
 <style type="text/css">
@@ -142,7 +144,7 @@ function submitSplash() {
 	}
 
 	.selections {
-		font-size: 2em;	
+		font-size: 2em;
 	}
 
 	select {
@@ -206,26 +208,7 @@ function submitSplash() {
 				<option value="Eli">Eli B</option>
 				<option value="Quinn">Quinn S</option>
 				<option value="Weeks">David W</option>		-->
-				<option value="alma">Alma L</option>
-				<option value="angelina">Angelina T</option>
-				<option value="anna">Anna H</option>
-				<option value="daniel">Daniel R</option>
-				<option value="david">David H</option>
-				<option value="demian">Demian Ihrig</option>
-				<option value="erik">Erik P</option>
-				<option value="francesca">Francesca G</option>
-				<option value="harrison">Harrison J</option>
-				<option value="isaac">Isaac S</option>
-				<option value="jashan">Jashanpreet T</option>
-				<option value="josef">Josef M</option>
-				<option value="kenny">Kenny P</option>
-				<option value="heidal">Michael H</option>
-				<option value="larson">Michael L</option>
-				<option value="nathan">Nathan T</option>
-				<option value="nick">Nick T</option>
-				<option value="payton">Payton A</option>
-				<option value="tanvir">Tanvir T</option>
-				<option value="zuzanna">Zuzanna D</option>
+				<option value="testScout">Test</option>
 			</select>
 			<br>
 			<br>EVENT:
@@ -243,5 +226,3 @@ function submitSplash() {
 	</div>
 </body>
 </html>
-
-
