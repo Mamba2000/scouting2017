@@ -2,17 +2,22 @@
 <html>
 <head>
   <script>
+    var knownTeams = [1983, 190, 2000];
     function check(){
-      var teams = [];
-      var data = document.getElementById("thing");
-      var dData = [];
-      for(var i = 0; )
+      var teams = document.getElementById("teams").value;
+      var dteams = teams.split(" ");
+      for(i = 0; i < dteams.length; i++){
+        if(!check2(dteams[i])){
+          console.log('not in known ' + dteams[i] + ' on line ' + (parseInt(i) + 1));
+        }
+      }
+    }
+    function check2(inputs){
+      return knownTeams.indexOf(parseInt(inputs)) > -1
     }
   </script>
 </head>
 <body>
-  <input type="text-area" placeholder="Paste the shit in here" id = "thing">
-  <button onClick = "check()">
-    submit
-  </button>
+  <input type="text-area" placeholder="Paste the shit in here" id = "teams">
+  <button onClick = "check()">submit</button>
 </body>
