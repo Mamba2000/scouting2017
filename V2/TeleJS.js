@@ -4,17 +4,18 @@ var jObj;
 var matches;						//hi im evan and im not cool
 var robot;
 var alliance;
+var teamNo;
 
 function initialize() {
-	robot = eval(localStorage.getItem("Robot"));
-	alliance = localStorage.getItem("Alliance");
-	eventName = localStorage.getItem("Event");
+	robot = eval(localStorage.getItem("splash_robot"));
+	alliance = localStorage.getItem("splash_alliance");
+	eventName = localStorage.getItem("splash_eventName");
     if ((eventName == "test") || (eventName == null)) {
 			eventName = "2016wagg";		// Test
 		}
     for (i=0; i<localStorage.length; i++) {
 			var key = localStorage.key(i);
-			console.log(key);															// Test
+			//console.log(key);															// Test
   		if (eventName.concat("Matches") == key) {
   			isThere = true;
 			}
@@ -22,10 +23,11 @@ function initialize() {
 
 	if (isThere) {
 		var jList = localStorage.getItem(eventName.concat("Matches"));
+		//console.log(jList);
 		matches = new Array();
 		var matches = JSON.parse(jList);
 //		console.log("matches: " + matches.length);									// Test
-		var match = Number(localStorage.getItem("Match"));
+		var match = Number(localStorage.getItem("splash_match"));
 		if (match != null) {
 			elem = document.getElementById("teamNo");
 			title = document.getElementById("autoHeader");
@@ -40,6 +42,7 @@ function initialize() {
 				sub.style.color = RED;
 				sub.style.borderColor = RED;
 			} else {
+				//console.log(alliance);
 				teamNo = matches[match - 1].blue[robot - 1];
 				elem.innerHTML = teamNo;
 				elem.style.color = BLUE;
@@ -68,7 +71,7 @@ function initialize() {
 				sub.style.borderColor = BLUE;
 			}
 			// localStorage.setItem("TeamNo", teamNo);
-			console.log(teamNO);
+			//console.log(teamNo);
 		}
 	}
 	var jStr = '{"isTele":"true","scoutName":"Notdefined","eventName":"","teamNo":0,"match":0,"robot":0,"alliance":"OOO","auto":{"gearScores":"none","passLine":false,"highScores":0,"lowScores":0,"noShow":false,"deadBot":false,"startLocation":"default"},';
@@ -76,13 +79,13 @@ function initialize() {
 	jObj = JSON.parse(jStr);
 	jObj.robot = robot;
 	jObj.alliance = alliance;
-	jObj.scoutName = localStorage.getItem("splash-scoutName");
-	jObj.teamNo = localStorage.getItem("TeamNo");
-	jObj.eventName = localStorage.getItem("splash.eventName");
+	jObj.scoutName = localStorage.getItem("splash_scoutName");
+	jObj.teamNo = teamNo
+	jObj.eventName = localStorage.getItem("splash_eventName");
 	var chrs = localStorage.getItem(jObj.eventName.concat("Matches"));
 	matches = JSON.parse(chrs);
-	jObj.match = localStorage.getItem("Match");
-	var chr = jObj.eventName + jObj.TeamNo + jObj.match;
+	jObj.match = localStorage.getItem("splash_match");
+	var chr = jObj.eventName + jObj.teamNo + jObj.match;
 	chr = chr.concat("Object");
 	var obj = localStorage.getItem(chr);
 	parsed = JSON.parse(obj);
@@ -95,7 +98,7 @@ function initialize() {
 	var buttonStop = document.getElementById('button-stop');
 	var buttonReset = document.getElementById('button-reset');
 	var Interval ;
-	console.log("This happened");
+	//console.log("This happened");
 	buttonStart.onclick = function() {
 		clearInterval(Interval);
 		Interval = setInterval(startTimer, 10);
@@ -111,7 +114,7 @@ function initialize() {
 		appendSeconds.innerHTML = seconds;
 	}
 }
-function startTimer () {
+function startTimer() {
 	tens++;
 	if(tens < 9) {
 		appendTens.innerHTML = "0" + tens;
@@ -263,7 +266,7 @@ function submit(q) {
 		LSName = LSName.concat(jObj.match);
 		LSName = LSName.concat("_");
 		LSName = LSName.concat("Object");
-		//localStorage.setItem(LSName, JSON.stringify(jObj));
+		localStorage.setItem(LSName, JSON.stringify(jObj));
 		console.log(LSName);
 		console.log(JSON.stringify(jObj));
 		// now go back to the start

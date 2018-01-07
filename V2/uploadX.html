@@ -13,8 +13,9 @@ table, th, td {
 
 <table id = "events" style="width:100%">
     <tr>
-        <th>Event</th>
-        <th>Sent</th>
+        <th>Match No</th>
+        <th>Team No</th>
+        <th>Sent?</th>
         <th>Submit</th>
     </tr>
 </table>
@@ -31,55 +32,48 @@ table, th, td {
 
     table = document.getElementById("events");
 
+    matches = [];
+
     for (var key in localStorage) {
       try {
+        console.log(key);
         key = JSON.parse(localStorage.getItem(key));
         isTele = key.isTele;
-        console.log(key);
+        // console.log("Before key log");
+        // console.log(key);
+        // console.log("Logging key.isTele");
+        // console.log(key.isTele);
+        // console.log("Done logging");
+        if(!key.isTele) {
+          console.log("Non-match");
+          continue;
+        }
+        matches.push(key);
       } catch(err) {
         console.log("Non-match");
         continue;
       }
-
-      console.log("Good Match");
-      row = table.insertRow(-1);
-
-      row.id = "row-" + name.toString();
-
-      number = row.insertCell(-1);
-      submitted = row.insertCell(-1);
-      submit = row.insertCell(-1);
-
-      number.innerHTML = name;
-      submitted.innerHTML = "False";
-      submit.innerHTML = "<button id=\"" + name + "\" onclick=\"sendData(" + name + ");\">Submit</button>";
     }
 
+    matches.sort(function(a, b) {
+      return parseInt(a.match) - parseInt(b.match);
+    });
+    matches.forEach(function(thing) {
+      console.log("Good Match");
+      row = table.insertRow(-1);
+      name = thing.match;
+      row.id = "row-" + name.toString();
 
-    // for(var key in localStorage) {
-    //
-    //   try {
-    //     key = JSON.parse(localStorage.getItem(key));
-    //     console.log(key);
-    //     match = key.Match;
-    //   } catch(err) {
-    //     console.log("Non match");
-    //     continue;
-    //   }
-    //
-    //   console.log("Good");
-    //   row = table.insertRow(-1);
-    //
-    //   row.id = "row-" + match.toString();
-    //
-    //   number = row.insertCell(-1);
-    //   submitted = row.insertCell(-1);
-    //   submit = row.insertCell(-1);
-    //
-    //   number.innerHTML = match;
-    //   submitted.innerHTML = "False";
-    //   submit.innerHTML = "<button id=\"" + match + "\" onclick=\"sendData(" + match + ");\">Submit</button>";
-    // }
+      match = row.insertCell(-1);
+      team = row.insertCell(-1);
+      sent = row.insertCell(-1);
+      submit = row.insertCell(-1);
+
+      match.innerHTML = thing.match;
+      team.innerHTML = thing.teamNo;
+      sent.innerHTML = "No";
+      submit.innerHTML = "<button id=\"" + name + "\" onclick=\"sendData(" + name + ");\">Submit</button>";
+    });
 
   };
 
@@ -87,7 +81,9 @@ table, th, td {
     table = document.getElementById("send_messages");
     row = table.insertRow(-1);
 
-    row.innerHTML = "<p>Data sent for match " + name.toString() + ".</p>"; //not really
+    row.innerHTML = "<p>Data sent for match " + name.toString() + ".</p>"; //TODO: upLoaded; if error, do not delete row and display error and bring to Eli probably (or patrick if competent, which is a big *if*)
+
+    localStorage.removeItem(name)
 
     row = document.getElementById("row-" + name.toString());
     row.parentNode.removeChild(row);
