@@ -2,14 +2,19 @@
 <html>
 <head>
   <script>
-    var knownTeams = [1983, 190, 2000];
+    var knownTeams = [488, 568, 948, 1778, 1983, 2046, 2412, 2555, 2557, 2605, 2906, 2907, 2927, 2928, 2929, 2942, 3049, 3219, 3221, 3237, 3238, 3393, 3574, 3684, 3876, 4060, 4131, 4461, 4469, 4579, 5588, 5683, 5803, 5937, 5941, 6350, 6503, 6959];
     function check(){
       var teams = document.getElementById("teams").value;
       var dteams = teams.split(" ");
+      var errors = false;
       for(i = 0; i < dteams.length; i++){
         if(!check2(dteams[i])){
           console.log('not in known ' + dteams[i] + ' on line ' + (parseInt(i) + 1));
+          errors = true;
         }
+      }
+      if(!errors){
+        console.log('no errors :)');
       }
     }
     function check2(inputs){
